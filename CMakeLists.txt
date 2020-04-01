@@ -3,4 +3,8 @@ project(hfa)
 
 set(CMAKE_CXX_STANDARD 11)
 
+<<<<<<< HEAD
 add_executable(hfa main.cpp dsu.cpp dsu.h st.cpp st.h)
+=======
+add_executable(hfa test.cpp)
+>>>>>>> test

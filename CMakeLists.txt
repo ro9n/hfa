@@ -3,4 +3,4 @@ project(hfa)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(hfa ch6.strings/alignment.cpp)
+add_executable(hfa ch6.strings/subarr.sum.eq.k.cpp)

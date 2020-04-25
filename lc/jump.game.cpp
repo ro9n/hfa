@@ -2,8 +2,6 @@
 
 using namespace std;
 
-bool canreach(vector<int> &v, int i) {}
-
 int main() {
   vector<int> v{0, 1};
   int n = v.size();

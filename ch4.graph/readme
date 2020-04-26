@@ -1,0 +1,64 @@
+# #
+# dfs - O(|V|+|E|)
+dfs(u):
+  color[u] <- gray
+
+  ∀ v ∈ adjacent[u]
+    if color[v] == white
+      dfs(v)
+
+  color[v] <- black
+
+# #
+# dfs tree 
+# is a rooted tree
+# lemma: no cross edges, hence if there is an edge between (u) and (v), then parent[v] <- u
+dfs(u): 
+  color[u] <- gray
+
+  ∀ v ∈ adjacent[u]
+    if color[v] == white
+      dfs(v)
+      parent[v] <- u
+
+  color[v] <- black
+
+# #
+# start and finish time
+# lemma: if we run dfs (root) on a rooted tree, then u is an ancestor of v
+# if and only if startᵤ <= startᵥ <= endᵥ <= endᵤ
+time <- 0
+dfs(u):
+  start[u] <- time++
+  color[u] <- gray
+
+  ∀ v ∈ adjacent[u]
+    if color[v] == white
+      dfs(v)
+
+  color[v] <- black
+  end[u] <- time # or time++
+
+# #
+# finding cut edges: Bridge
+# let d[u]: discovery time of u
+# let l[u]: lowest d reachable from the current dfs spanning subtree of u
+# l(v) is not smaller than d(u) implies that there is no back edge from vertex v 
+# that can reach another vertex w
+# with a lower d(w) than d(u). A vertex w with lower d(w) than vertex
+# u with d(u) implies that w is the ancestor of u in the DFS spanning tree. This
+# means that to reach the ancestor(s) of u from v, one must pass through vertex u. Therefore,
+# removing vertex u will disconnect the graph.
+time <- 0
+dfs(u):
+  l[u] <- d[u] <- time++
+  
+  ∀ v ∈ adjacent[u]
+    if color[v] == white
+      parent[v] <- u
+      children[u]++
+
+      dfs(v)
+
+      if l[v] > d[u]
+        u -> v is a cut edge / bridge

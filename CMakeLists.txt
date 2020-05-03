@@ -3,4 +3,4 @@ project(hfa)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(hfa ch6.strings/subarr.sum.eq.k.cpp)
+add_executable(hfa lc/msft/1.arrays.and.strings/1.5.reverse.words.in.a.string.cpp)

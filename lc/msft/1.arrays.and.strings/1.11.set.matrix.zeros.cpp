@@ -7,20 +7,38 @@ class Solution {
   void setZeroes(vector<vector<int>>& M) {
     int n = M.size(), m = M[0].size();
 
-    bool r[n], c[m];
+    bool fcol0 = false;
 
-    memset(r, 0, sizeof(r));
-    memset(c, 0, sizeof(c));
-    
-    for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < m; ++j) {
-        if (!M[i][j]) r[i] = c[j] = 1;
+    for (int j = 0; j < m; ++j) {
+      if (!M[0][j]) {
+        fcol0 = true;
+        break;
       }
     }
 
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < m; ++j) {
-        if (r[i] || c[j]) M[i][j] = 0;
+        if (!M[i][j]) {
+          M[0][j] = 0;
+        }
+      }
+    }
+
+    for (int i = 1; i < n; ++i) {
+      bool row0 = false;
+      for (int j = 0; j < m; ++j) {
+        if (!M[i][j]) {
+          row0 = true;
+        }
+      }
+      for (int j = 0; j < m; ++j) {
+        if (row0 || !M[0][j]) M[i][j] = 0;
+      }
+    }
+    
+    if (fcol0) {
+      for (int j = 0; j < m; ++j) {
+        M[0][j] = 0;
       }
     }
   }

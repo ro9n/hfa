@@ -2,6 +2,19 @@
 
 using namespace std;
 
+class Solution {
+ public:
+  ListNode* reverseList(ListNode *head) {
+    ListNode *h = head, *p = nullptr;  // head, previous
+    while (h) {
+      ListNode *n = h->next;  // next
+      h->next = p;
+      p = h;
+      h = n;
+    }
+    return p;
+  }
+};
 
 struct ListNode {
   int val;

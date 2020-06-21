@@ -11,9 +11,11 @@
 
 using namespace std;
 
+#define ll long long
+
 int main() {
-    long long n, k, r; cin >> n >> k;
-    long long lastodd = n / 2;
+    ll n, k, r; cin >> n >> k;
+    ll lastodd = n / 2;
     
     if (n & 1) ++lastodd;
 

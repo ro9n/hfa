@@ -19,6 +19,10 @@ typedef vector<int> vi;
 
 #define pb push_back
 
+// We’ll consider the worst-case scenario, where the graph is complete, meaning there’s an edge between every pair of vertices. In this case, it turns out the problem is likely to find a permutation of vertices to visit them.
+// For each permutation of vertices, there is a corresponding path. Hence, the complexity is O(|V|!), where |V| is the number of vertices and |V|! is the factorial of the number of vertices.
+// This complexity is enormous, of course, but this shouldn’t be surprising because we’re using a backtracking approach.
+
 // v ^ v expo
 // v! for complete graph
 int main() {

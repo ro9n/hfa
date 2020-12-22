@@ -157,7 +157,7 @@ void dfs(int u) {
 
   for (auto v : adj[u]) {
     if (color[v] == WHITE) dfs(v);
-    if (color[v] == BLACK) d[u] = min(d[u], d[v]);  // condition for updating low links
+    if (color[v] == GREY) d[u] = min(d[u], d[v]);  // condition for updating low links
   }
 
   if (d[u] == h[u]) {
@@ -177,17 +177,17 @@ void dfs(int u) {
 vector<vi> scc;
 void dfs(int u) {
   d[u] = h[u] = ++c;
-  color[u] = GREY;
+  s.push_back(u), color[u] = GREY;
 
   for (auto v : adj[u]) {
     if (color[v] == WHITE) dfs(v);
-    if (color[v] == BLACK) d[u] = min(d[u], d[v]);
+    if (color[v] == GREY) d[u] = min(d[u], d[v]);
   }
 
   if (d[u] == h[u]) {
     vi tmp;
     do {
-      tmp.push_back(s.back()), s.pop_back();
+      tmp.push_back(s.back()), s.pop_back(), color[u] = WHITE;
     } while (s.back() != u);
     scc.push_back(tmp);
   }
@@ -286,3 +286,10 @@ void spfa(int s) {
 }
 
 // TODO MST: Kruskals, Prims
+// Kruskals
+// O(E log E + E × (≈ 1)) =
+// O(E logE) = O(E log V 2) = O(2 × E log V ) = O(E log V ).
+
+// Prim
+// O(process each edge once × cost of
+// enqueue/dequeue) = O(E × log E) = O(E log V ).

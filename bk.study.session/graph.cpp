@@ -60,7 +60,7 @@ void dfs(int u) {
   ft[u] = c;  // or ++c;
 }
 
-// Finding cut edges
+// Finding cut edges O(V + E)
 // removing these edges will disconnect the graph
 // At the beginning,
 // dfs_low(u) = dfs_num(u) when vertex u is visited for the first time. Then, dfs_low(u)
@@ -134,7 +134,7 @@ void dfs(int u) {
   etour.push_back(u);
 }
 
-// BFS
+// BFS O(V+E)
 const int INF = 1e9 + 7;
 vi d(MXN, INF);
 void bfs(int s) {
@@ -173,27 +173,8 @@ void dfs(int u) {
   }
 }
 
-// SCC - tarjan - alternate
-vector<vi> scc;
-void dfs(int u) {
-  d[u] = h[u] = ++c;
-  s.push_back(u), color[u] = GREY;
-
-  for (auto v : adj[u]) {
-    if (color[v] == WHITE) dfs(v);
-    if (color[v] == GREY) d[u] = min(d[u], d[v]);
-  }
-
-  if (d[u] == h[u]) {
-    vi tmp;
-    do {
-      tmp.push_back(s.back()), s.pop_back(), color[u] = WHITE;
-    } while (s.back() != u);
-    scc.push_back(tmp);
-  }
-}
-
-// SSSP Dijkstra V + E log₂ V
+// SSSP Dijkstra V + E log₂ V 
+// (V + E lg V) ⇒ V + E lg V² ⇒ V + 2 E lg V ⇒ V + E lg V
 #define ff first
 #define ss second
 typedef pair<int, int> ii;

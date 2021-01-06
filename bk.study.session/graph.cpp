@@ -270,26 +270,114 @@ in Section 4.4. The fourth data structure is unique to SPFA.
 vi d[MXN], inq[MXN];
 void spfa(int s) {
   vvii adj;
-  queue<int> q; q.push(s);
+  queue<int> q;
+  q.push(s);
 
-  while(!q.empty()) {
-    int u = q.front(); q.pop(); inq[u] = 0;
-    for(auto vw : adj[u]) {
+  while (!q.empty()) {
+    int u = q.front();
+    q.pop();
+    inq[u] = 0;
+    for (auto vw : adj[u]) {
       int v = vw.ff, w = vw.ss;
       if (d[u] + w < d[v]) {
         d[v] = d[u] + w;
-        if(!inq[v]) inq[v] = 1, q.push(v);
-
+        if (!inq[v]) inq[v] = 1, q.push(v);
       }
     }
   }
 }
 
 // TODO MST: Kruskals, Prims
-// Kruskals
+// Kruskals : works on edge list
 // O(E log E + E × (≈ 1)) =
-// O(E logE) = O(E log V 2) = O(2 × E log V ) = O(E log V ).
+// O(E logE) = O(E log V²) = O(2 × E log V ) = O(E log V ).
 
-// Prim
+// Prim : works on adj
 // O(process each edge once × cost of
 // enqueue/dequeue) = O(E × log E) = O(E log V ).
+
+/**
+ * @returns mst cost
+ */
+
+struct dsu {
+  vi parent, rank;
+
+ public:
+  void u(int u, int v) {
+    int p1 = f(u), p2 = f(v);
+    if (p1 != p2) {
+      if (rank[p1] < rank[p2]) swap(p1, p2);
+      parent[p2] = p1;
+      if (rank[p1] == rank[p2]) ++rank[p1];
+    }
+  }
+
+  int f(int u) {
+    if (u = parent[u]) return u;
+    return parent[u] = f(parent[u]);
+  }
+
+  // is same set
+  bool s(int u, int v) {
+    return f(u) == f(v);
+  }
+
+  dsu(int n) {
+    parent.assign(n, 0);
+    for (int i = 0; i < n; ++i) parent[i] = i;
+    rank.assign(n, 0);
+  }
+};
+
+int kruskal() {
+  vector<vector<ii>> g;  // adj
+  vector<pair<int, ii>> edges;
+
+  int V = g.size();
+
+  for (int u = 0; u < g.size(); ++u) {
+    for (auto v : g[u]) {
+      edges.push_back({v.second, {u, v.first}});  // weight, (u, v)
+    }
+  }
+
+  // e lg e
+  sort(edges.begin(), edges.end());  // asc weight->u->v
+
+  dsu uf = dsu(V);
+  int cost = 0;
+  for (auto e : edges) {
+    int u = e.ss.ff, v = e.ss.ss, w = e.ff;
+    if (!uf.s(u, v)) {  // u, v not in same set
+                        // this u→v is a part of mst
+      cost += w;        // w
+      uf.u(u, v);
+    }
+  }
+
+  return cost;
+}
+
+vi taken;  // avoid cycle
+priority_queue<ii> q;
+
+void process(int u) {
+  taken[u] = 1;
+  for (auto vv : adj[u]) {
+    int v = vv.ff, w = vv.ss;
+    if (!taken[v]) q.push({-w, -v});
+  }
+}
+
+int prim() {
+  taken.assign(V, 0);
+  process(0);
+
+  while (!q.empty()) {
+    ii front = q.front();
+    q.pop();
+    int u = -front.ss, w = -front.ff;
+    if (!taken[u]) c += w, process(u);
+  }
+}

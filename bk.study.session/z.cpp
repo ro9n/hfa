@@ -43,5 +43,7 @@ vi zf(string s) {
 int main() {
   string s = "abcabc";
   zf_trivial(s);
+  auto ans = zf(s);
+  for(auto k: ans) cout << k;
   return 0;
 }
